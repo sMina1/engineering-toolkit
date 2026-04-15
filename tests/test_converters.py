@@ -1,6 +1,7 @@
 import pytest
 from converters.length import convert_length
 from converters.temperature import convert_temperature
+from converters.pressure import convert_pressure
 
 # --- Length tests ---
 
@@ -28,3 +29,16 @@ def test_freezing_point():
 def test_invalid_from_unit_raises():
     with pytest.raises(ValueError):
         convert_temperature(100, "x", "c")
+        
+        
+# --- Pressure tests ---
+
+def test_bar_to_atm():
+    assert convert_pressure(100, "bar", "atm") == pytest.approx(98.6923)
+
+def test_mpa_to_psi():
+    assert convert_pressure(3_000_000, "mpa", "psi") == pytest.approx(435113213)
+
+def test_invalid_from_unit_raises_p():
+    with pytest.raises(ValueError):
+        convert_pressure(100, "x", "c")
