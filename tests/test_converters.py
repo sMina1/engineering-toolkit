@@ -2,6 +2,8 @@ import pytest
 from converters.length import convert_length
 from converters.temperature import convert_temperature
 from converters.pressure import convert_pressure
+from converters.force_torque import convert_force_torque
+
 
 # --- Length tests ---
 
@@ -42,3 +44,26 @@ def test_mpa_to_psi():
 def test_invalid_from_unit_raises_p():
     with pytest.raises(ValueError):
         convert_pressure(100, "x", "c")
+        
+        
+# --- Force Torque tests ---
+
+def test_kgf_to_lbf():
+    assert convert_force_torque(3.8, "kgf", "lbf") == pytest.approx(8.378, abs=.01)
+
+def test_lbft_to_knm():
+    assert convert_force_torque(2_200, "lb.ft", "knm") == pytest.approx(2.98, abs = .01)
+
+def test_same_unit_returns_original_f():
+    assert convert_force_torque(5, "n", "n") == 5.0
+
+def test_invalid_from_unit_raises_ftq():
+    with pytest.raises(ValueError):
+        convert_force_torque(100, "n", "c")
+        
+def test_mixed_unit_types_raises_ftq():
+    with pytest.raises(ValueError):
+        convert_force_torque(100, "n", "nm")
+        
+        
+  
