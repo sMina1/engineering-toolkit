@@ -18,5 +18,10 @@ def convert_length(value, from_unit, to_unit):
         raise ValueError(f"Invalid to_unit: {to_unit}")
 
     # Convert: from_unit -> metres -> to_unit
+    conversion_list = []
+    
     metres = value * to_metres[from_unit]
-    return metres / to_metres[to_unit]
+    conversion_list.append((from_unit, "m", metres))
+    conversion_list.append(("m", to_unit, metres / to_metres[to_unit]))
+
+    return(conversion_list)
