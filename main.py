@@ -3,6 +3,8 @@ from converters.temperature import convert_temperature
 from converters.pressure import convert_pressure
 from converters.force_torque import convert_force_torque
 
+from utils.helpers import print_steps
+
 def main():
     # test your function here
     
@@ -35,7 +37,7 @@ def main():
                 result = convert_force_torque(value, from_unit, to_unit)
             else: # else a pressure conversion
                 result = convert_pressure(value, from_unit, to_unit)
-            print(result)
+            print_steps(result)
         except ValueError as e:
             print(f"Error: {e}")
 

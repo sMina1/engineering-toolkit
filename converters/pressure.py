@@ -14,5 +14,10 @@ def convert_pressure(value, from_unit, to_unit):
     if to_unit not in to_pascals:
         raise ValueError(f"Invalid to_unit: {to_unit}")
 
+    conversion_list = []
+
     pascals = value * to_pascals[from_unit]
-    return pascals / to_pascals[to_unit]
+    conversion_list.append((from_unit, "pa", pascals))
+    conversion_list.append(("pa", to_unit, pascals / to_pascals[to_unit]))
+    
+    return(conversion_list)
