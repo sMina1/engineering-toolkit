@@ -1,4 +1,5 @@
 import pandas as pd
+import argparse
 from converters.length import convert_length
 from converters.pressure import convert_pressure
 
@@ -6,9 +7,17 @@ def load_sensor_data(filepath):
     df = pd.read_csv(filepath)
     return df
 
-if __name__ == "__main__":
-    df = load_sensor_data("data/sensor_data.csv")
+def parse_args():
+    parser = argparse.ArgumentParser(description="Process sensor data CSV")
+    parser.add_argument("--input", required=True, help="Path to input CSV file")
+    parser.add_argument("--output", required=True, help="Path to output CSV file")
+    return parser.parse_args()
 
+if __name__ == "__main__":
+    
+    args = parse_args()
+    df = load_sensor_data(args.input)
+    
     df_si = df
     #convert length_mm to length_m
     df_si["length_mm"] = df_si["length_mm"].apply(lambda x: convert_length(x, "mm", "m")[-1][2])
@@ -19,7 +28,7 @@ if __name__ == "__main__":
     df_si = df_si.rename(columns={"pressure_psi": "pressure_pa"})
     
     df_si = df_si.round(4)
-    df_si.to_csv("data/sensor_data_si.csv", index=False)
+    df_si.to_csv(args.output, index=False)
 
     #summry stats
     #iterative/long way
